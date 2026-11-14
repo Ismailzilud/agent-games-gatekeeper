@@ -57,8 +57,9 @@ kerja", reaffirmed 2026-11-15 06:19 WIB "kerjakan ini aja bos").
 - Hosting decision: Tailscale in this VM is client-only (cannot host);
   cloudflared ignores the egress proxy; SSH tunnels (serveo/pinggy) die on
   the proxy's flaky port-22 CONNECT. Deno Deploy chosen: stable public URL,
-  no tunnel, survives VM replacement. Repo committed locally (2071ce9),
-  NOT yet pushed — public-repo publication awaits the user's yes.
+  no tunnel, survives VM replacement. Repo PUBLISHED 2026-11-15 06:52 WIB
+  with the user's approval: https://github.com/Ismailzilud/agent-games-gatekeeper
+  (17 files; node_modules and the cloudflared binary excluded).
 - Cross-checked against two independent public competitor implementations
   (protocol facts agree); code here is our own.
 
