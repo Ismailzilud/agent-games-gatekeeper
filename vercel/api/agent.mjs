@@ -13,10 +13,9 @@ const SECRET = process.env.AGENT_GAMES_HMAC_SECRET || '';
 const kurier = process.env.KURIER_API_KEY
   ? createKurier({ apiKey: process.env.KURIER_API_KEY, network: process.env.NETWORK || 'mainnet' })
   : null;
-const state =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? new State(process.env.UPSTASH_REDIS_REST_URL, process.env.UPSTASH_REDIS_REST_TOKEN)
-    : null;
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+const state = redisUrl && redisToken ? new State(redisUrl, redisToken) : null;
 
 function sign(raw) {
   return createHmac('sha256', SECRET).update(raw).digest('hex');
