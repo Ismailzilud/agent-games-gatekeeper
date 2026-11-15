@@ -54,25 +54,39 @@ kerja", reaffirmed 2026-11-15 06:19 WIB "kerjakan ini aja bos").
   the threaded prover deadlocks under Deno — fullProve needs
   {singleThread:true}; local groth16.verify is skipped on Deno, public
   signals are asserted element-wise instead). HTTP harness 7/7 PASS locally.
-- Hosting decision: Tailscale in this VM is client-only (cannot host);
-  cloudflared ignores the egress proxy; SSH tunnels (serveo/pinggy) die on
-  the proxy's flaky port-22 CONNECT. Deno Deploy chosen: stable public URL,
-  no tunnel, survives VM replacement. Repo PUBLISHED 2026-11-15 06:52 WIB
-  with the user's approval: https://github.com/Ismailzilud/agent-games-gatekeeper
-  (17 files; node_modules and the cloudflared binary excluded).
-- Cross-checked against two independent public competitor implementations
-  (protocol facts agree); code here is our own.
+- Hosting: Deno Deploy is CLOSED to new signups (winding down, shuts
+  April 2027 — found 2026-11-15 07:07 WIB after GitHub login succeeded).
+  GitHub Codespaces SSH is blocked by this VM's egress proxy. FINAL:
+  **Vercel** (project agent-games-gatekeeper, team Rana-Rene, root dir
+  vercel/, Upstash Redis "gatekeeper-state" Sin1 free via KV_* env names).
+  Production: https://agent-games-gatekeeper-eta.vercel.app
+  Endpoint: /api/agent · health: /api/healthz.
+- Vercel edition `vercel/` (api/agent.mjs + lib/, Upstash REST state,
+  lazy snarkjs load, local verify kept): local simulation 7/7 PASS.
+  PRODUCTION VERIFIED 2026-11-15 08:33 WIB: signed practice-shaped task →
+  HTTP 200 in 3,85 s, APPROVE/VALID_CONDITION, 13 public signals, and the
+  returned proof VERIFIES against the official VK locally. Preflight →
+  {"ok":true,"protocolVersion":"v1"} in 1,2 s. (Note: this VM's egress
+  proxy intermittently swallows POST responses from vercel.app — the
+  Vercel logs showed the "hanging" probes had in fact completed server-
+  side in <1 s with correct 401s. Client-side artifact, not an endpoint
+  fault.)
+- Finalization policy (all editions, 2026-11-15): Kurier finalization is
+  best-effort — the reply always carries the decision + locally verified
+  proof; proof_tx is added only when finalization completes in budget.
+  A slow relay never flips a correct decision.
+- Repo: https://github.com/Ismailzilud/agent-games-gatekeeper (public).
 
 ## Remaining (needs the user's accounts, ~10 min together)
 
-1. User approves publishing the GitHub repo (agent-games-gatekeeper).
-2. Deno: user signs in at Deno Deploy with GitHub, creates project from the
-   repo (entrypoint deno/main.ts), shares the resulting *.deno.dev URL.
-3. Agent Games dashboard (user, logged in): register endpoint
-   https://<url>/agent; Rotate Secret → user sets AGENT_GAMES_HMAC_SECRET in
-   the Deno project env (secret never passes through chat/Muse).
-4. Kurier: user signs up at kurier.xyz (mainnet) → sets KURIER_API_KEY in the
-   Deno project env the same way.
-5. Dashboard: run preflight, then practice tasks; verify scores register.
-6. Profile: connect GitHub + wallet (prize eligibility).
-7. Play scored rounds 3–8 (next: today 17:30 WIB).
+1. Agent Games dashboard: user logs in ONCE via live-browser takeover
+   (automated X login is blocked on X's side). Then the agent registers
+   endpoint https://agent-games-gatekeeper-eta.vercel.app/api/agent,
+   rotates the secret, and copies it into the Vercel env
+   (AGENT_GAMES_HMAC_SECRET, replacing the temporary test secret) inside
+   the same browser session — the secret never passes through chat.
+2. Kurier: user signs up at kurier.xyz (email+password, mainnet) → the
+   API key is set as KURIER_API_KEY in the Vercel project env.
+3. Dashboard: run preflight, then ≥1 practice task; verify scores register.
+4. Profile: connect GitHub + wallet (prize eligibility).
+5. Play scored rounds 3–8 (next: today 15 Nov 17:30 WIB).
