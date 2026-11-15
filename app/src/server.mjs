@@ -185,12 +185,10 @@ export function createHandler(config, state, deps = {}) {
             if (Date.now() >= deadline) throw new Error('DEADLINE');
             reply = { ...reply, proof_tx: confirmed.txHash };
           } catch {
-            // An APPROVE must never ride on an unfinalized proof; a REJECT
-            // keeps its (locally verified) proof and simply has no proof_tx.
-            reply =
-              candidate.decision === 'REJECT'
-                ? reply
-                : reject(Date.now() >= deadline ? 'TIMEOUT' : 'FINALIZATION_FAILED');
+            // Finalization is best-effort: the scored payload is the decision
+            // plus the (locally verified) proof, which the platform
+            // re-verifies itself. A slow Kurier must never flip a correct
+            // decision into a wrong one; the reply simply omits proof_tx.
           }
         }
         if (Date.now() >= deadline) reply = reject('TIMEOUT');

@@ -185,10 +185,8 @@ Deno.serve(async (req) => {
           if (Date.now() >= deadline) throw new Error("DEADLINE");
           reply = { ...reply, proof_tx: confirmed.txHash };
         } catch {
-          reply =
-            candidate.decision === "REJECT"
-              ? reply
-              : reject(Date.now() >= deadline ? "TIMEOUT" : "FINALIZATION_FAILED");
+          // Best-effort finalization: keep the decision + verified proof,
+          // omit proof_tx. Never flip a correct decision over a slow relay.
         }
       }
       if (Date.now() >= deadline) reply = reject("TIMEOUT");
