@@ -1,1 +1,1 @@
-{"functions":{"api/agent.mjs":{"includeFiles":["circuits/**"],"maxDuration":60,"memory":1024}}}
+{"functions":{"api/agent.mjs":{"includeFiles":"circuits/**","maxDuration":60,"memory":1024}}}
